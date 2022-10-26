@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - edge
+    - release/*
+    paths-ignore:
+    - 'LICENSE-*'
+    - '**.md'
+    - '**.txt'
+    - '.github/**'
+  pull_request:
+    branches:
+    - "pull/**"
+    paths-ignore:
+    - 'LICENSE-*'
+    - '**.md'
+    - '**.txt'
+    - '.github/**'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} via the ${{ matrix.channel }} toolchain.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        channel: [stable, beta, nightly]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - name: Set up a Rust toolchain
+      uses: hecrj/setup-rust-action@v1.3.4
+      with:
+        rust-version: ${{ matrix.channel }}
+        components: clippy
+    
+    - uses: actions/checkout@v3
+    
+    - name: Clippy
+      run: cargo clippy --verbose
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose

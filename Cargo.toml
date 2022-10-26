@@ -1,0 +1,11 @@
+[package]
+name = "template-rs"
+description = "Yet another template crate."
+version = "0.0.1"
+edition = "2021"
+authors = ["wfrsk <wfrsk @ github.com>"]
+documentation = "https://docs.rs/template-rs"
+license = "AGPL-3.0-or-later AND CC-BY-NC-ND-4.0"
+readme = "README.md"
+
+[dependencies]
